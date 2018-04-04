@@ -16,20 +16,14 @@ class Transicao
 	}
 }
 
-class RedePetri 
+class RedePetri
 {
-	// lugares
-	// transicoes
-	// adjacencias = peso
-	// nLugares
-	// nTransicoes
-
 	constructor()
 	{
-		this.vertice = [];
-		this.nVertices = 0;
-		this.arco = [];
-		this.ciclo = 0;
+		this.vertice    = [];
+		this.nVertices  = 0;
+		this.arco       = [];
+		this.ciclo      = 0;
 	}
 
 	adicionaVertice(vertice)
@@ -83,16 +77,37 @@ class RedePetri
 		//this.temRecursos(verticesPossiveis);
 	}
 
-	habilitado(possiveis) // boolean
+	atualizaHabilitado(possiveis)
 	{
+		let transicoes = [];
+		let habilitado = false;
+
+		// Percorre capturando as transacoes
+		for(var i = 0; i < this.nVertices; i++)
+		{
+			if (this.vertice[i] instanceof Transicao)
+			{
+				transicoes.push(i);
+				habilitado = this.verificaTransacao(i);
+			}
+		}
 
 	}
 
-	buscaLigacoes(indice)
+	verificaTransacao(indice)
 	{
-		for(var i = 0; i < this.vertices.length; i++)
+		let transacao = this.vertice[indice];
+		let local = {};
+
+		// Percorre os arcos verificando os pesos
+		for(var i = 0; i < this.arco.length; i++)
 		{
-			console.log(indice);
+			if (this.arco[i][indice] != undefined)
+			{
+				local = this.vertice[i];
+				console.log(local.nome);
+				console.log(transacao.nome);
+			}
 		}
 	}
 
@@ -156,6 +171,6 @@ rede.adicionaArco(rede.localizaVertice('L3'), rede.localizaVertice('T2'), 1);
 rede.adicionaArco(rede.localizaVertice('T2'), rede.localizaVertice('L5'), 1);
 
 
-//rede.executa(0);
-rede.desenhaTerminal(0);
+rede.atualizaHabilitado();
+//rede.desenhaTerminal(0);
 
