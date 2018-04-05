@@ -77,18 +77,14 @@ class RedePetri
 		//this.temRecursos(verticesPossiveis);
 	}
 
-	atualizaHabilitado(possiveis)
+	atualizaHabilitado()
 	{
-		let transicoes = [];
-		let habilitado = false;
-
 		// Percorre capturando as transacoes
 		for(var i = 0; i < this.nVertices; i++)
 		{
 			if (this.vertice[i] instanceof Transicao)
 			{
-				transicoes.push(i);
-				habilitado = this.verificaTransacao(i);
+				this.vertice[i].habilitado = this.verificaTransacao(i);
 			}
 		}
 
@@ -96,19 +92,27 @@ class RedePetri
 
 	verificaTransacao(indice)
 	{
-		let transacao = this.vertice[indice];
-		let local = {};
+		let transacao  = this.vertice[indice];
+		let local      = {};
+		let habilitado = false;
 
 		// Percorre os arcos verificando os pesos
 		for(var i = 0; i < this.arco.length; i++)
 		{
-			if (this.arco[i][indice] != undefined)
+			if (this.arco[i])
 			{
-				local = this.vertice[i];
-				console.log(local.nome);
-				console.log(transacao.nome);
+				if (this.arco[i][indice] != undefined)
+				{
+					local = this.vertice[i];
+					console.log("L:" + local.marcas + " A:" + this.arco[i][indice]);
+					if (local.marcas >= this.arco[i][indice])
+						habilitado = true;
+					else
+						return false;
+				}
 			}
 		}
+		return habilitado;
 	}
 
 	desenhaTerminal(ciclo)
@@ -137,7 +141,7 @@ class RedePetri
 				if (ciclo == 0)
 					transicoes['cabecalho'] += this.vertice[i].nome + ' |  ';
 
-				transicoes['dados'] += (this.vertice[i].habilitado) ? 'S' : 'N' + '  |  ';
+				transicoes['dados'] += ((this.vertice[i].habilitado) ? 'S' : 'N') + '  |  ';
 			}
 		}
 
@@ -172,5 +176,5 @@ rede.adicionaArco(rede.localizaVertice('T2'), rede.localizaVertice('L5'), 1);
 
 
 rede.atualizaHabilitado();
-//rede.desenhaTerminal(0);
+rede.desenhaTerminal(0);
 
