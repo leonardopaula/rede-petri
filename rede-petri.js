@@ -24,6 +24,7 @@ class RedePetri
 		this.nVertices  = 0;
 		this.arco       = [];
 		this.ciclo      = 0;
+		this.passo      = 0;
 	}
 
 	adicionaVertice(vertice)
@@ -52,29 +53,9 @@ class RedePetri
 	}
 
 	/* Percorre todos o nós, executando 1 passo*/
-	executa(vertice)
+	executa()
 	{
-		// Verifica os possíveis caminhos a partir do atual
-		let verticeAtual = this.vertice[vertice];
-
-		// Caminhos que o nodo pode tomar
-		let caminhos = this.arco[vertice];
-
-		// vertices que ele pode ir
-		let verticesPossiveis = [];
-
-		for(var i = 0; i < caminhos.length; i++)
-		{
-			if (caminhos[i] != undefined)
-			{
-				if (this.arco[vertice][i] <= verticeAtual.marcas)
-				{
-					verticesPossiveis.push(i);
-				}
-			}
-		}
-
-		//this.temRecursos(verticesPossiveis);
+		
 	}
 
 	atualizaHabilitado()
@@ -104,8 +85,7 @@ class RedePetri
 				if (this.arco[i][indice] != undefined)
 				{
 					local = this.vertice[i];
-					console.log("L:" + local.marcas + " A:" + this.arco[i][indice]);
-					if (local.marcas >= this.arco[i][indice])
+						if (local.marcas >= this.arco[i][indice])
 						habilitado = true;
 					else
 						return false;
