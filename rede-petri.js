@@ -169,7 +169,16 @@ class RedePetri
 		console.log(cabecalho);
 		console.log(dados);
 	}
+}
 
+function lerEntradaRede() {
+	texto = document.getElementById("redeInput").value
+	var temp = new Array();
+	temp = texto.split(";")
+	alert(temp[0]);
+	for(var i = 0; i < this.temp.length; i++){
+		alert(temp[i]);
+	}
 }
 
 var rede = new RedePetri();
