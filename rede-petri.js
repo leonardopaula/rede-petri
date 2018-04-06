@@ -24,6 +24,7 @@ class RedePetri
 		this.nVertices  = 0;
 		this.arco       = [];
 		this.ciclo      = 0;
+		this.habilitados= [];
 		this.passo      = 0;
 	}
 
@@ -35,8 +36,11 @@ class RedePetri
 	adicionaArco(v1, v2, peso = 1)
 	{
 		// TODO: adicionar consistência nas ligações (não permitir transicao -> transicao, nem lugar -> lugar)
-		this.arco[v1]     = [];
+		if (!this.arco[v1])
+			this.arco[v1]     = [];
+
 		this.arco[v1][v2] = peso;
+
 	}
 
 	localizaVertice(nome)
@@ -55,17 +59,52 @@ class RedePetri
 	/* Percorre todos o nós, executando 1 passo*/
 	executa()
 	{
-		
+		// Percorre as transações habilitadas, atualizando os pesos
+		for(var i = 0; i < this.habilitados.length; i++)
+		{
+			// Percorre os arcos deste vértice
+			for(var j = 0; j < this.arco.length; j++)
+			{
+				// Para
+				if (j == this.habilitados[i])
+				{
+					for (var k = 0; k < this.arco[j].length; k++)
+					{
+						if (this.arco[j][k] != undefined)
+						{
+							this.vertice[k].marcas += this.arco[j][k];
+						}
+					}
+				}
+
+				// De
+				if (this.arco[j])
+				{
+					if (this.arco[j][this.habilitados[i]] != undefined)
+					{
+						this.vertice[j].marcas -= this.arco[j][this.habilitados[i]];
+					}
+				}
+			}
+		}
+
+		this.ciclo++;
+
+		this.atualizaHabilitado();
 	}
 
 	atualizaHabilitado()
 	{
+		this.habilitados = [];
+
 		// Percorre capturando as transacoes
 		for(var i = 0; i < this.nVertices; i++)
 		{
 			if (this.vertice[i] instanceof Transicao)
 			{
 				this.vertice[i].habilitado = this.verificaTransacao(i);
+				if (this.vertice[i].habilitado)
+					this.habilitados.push(i);
 			}
 		}
 
@@ -86,7 +125,7 @@ class RedePetri
 				{
 					local = this.vertice[i];
 						if (local.marcas >= this.arco[i][indice])
-						habilitado = true;
+							habilitado = true;
 					else
 						return false;
 				}
@@ -112,13 +151,13 @@ class RedePetri
 		{
 			if (this.vertice[i] instanceof Lugar) 
 			{
-				if (ciclo == 0)
+				//if (ciclo == 0)
 					lugares['cabecalho'] += this.vertice[i].nome + ' |  ';
 
 				lugares['dados'] += this.vertice[i].marcas + '  |  ';
 			} else {
 
-				if (ciclo == 0)
+				//if (ciclo == 0)
 					transicoes['cabecalho'] += this.vertice[i].nome + ' |  ';
 
 				transicoes['dados'] += ((this.vertice[i].habilitado) ? 'S' : 'N') + '  |  ';
@@ -156,5 +195,6 @@ rede.adicionaArco(rede.localizaVertice('T2'), rede.localizaVertice('L5'), 1);
 
 
 rede.atualizaHabilitado();
+
 rede.desenhaTerminal(0);
 
