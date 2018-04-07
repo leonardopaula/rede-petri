@@ -168,19 +168,33 @@ class RedePetri
 		dados     += lugares['dados'] + transicoes['dados'];
 		console.log(cabecalho);
 		console.log(dados);
+		document.getElementById("redeOutput").innerHTML = cabecalho + "\n" + dados;
 	}
 }
 
 function lerEntradaRede() {
 	texto = document.getElementById("redeInput").value
-	var temp = new Array();
-	temp = texto.split(";")
-	alert(temp[0]);
-	for(var i = 0; i < this.temp.length; i++){
-		alert(temp[i]);
+	let json = JSON.parse(texto);
+	var rede = new RedePetri();
+	let lugares = json.L;
+	for(var i = 0; i < lugares.length; i++){
+		rede.adicionaVertice(new Lugar(lugares[i][0], lugares[i][1]));
 	}
+	let transicoes = json.T;
+	for(var i = 0; i < transicoes.length; i++){
+		rede.adicionaVertice(new Transicao(transicoes[i][0]));
+	}
+	let arcos = json.A;	
+	for(var i = 0; i < arcos.length; i++){
+		rede.adicionaArco(rede.localizaVertice(arcos[i][0]), rede.localizaVertice(arcos[i][1]), arcos[i][2]);
+	}
+
+	rede.atualizaHabilitado();
+
+	rede.desenhaTerminal(0);
 }
 
+/*
 var rede = new RedePetri();
 
 rede.adicionaVertice(new Lugar('L1', 1));
@@ -206,4 +220,4 @@ rede.adicionaArco(rede.localizaVertice('T2'), rede.localizaVertice('L5'), 1);
 rede.atualizaHabilitado();
 
 rede.desenhaTerminal(0);
-
+*/
