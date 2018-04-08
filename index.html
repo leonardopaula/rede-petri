@@ -1,15 +1,35 @@
-<html>
-	<head></head>
-<body>
-	<form id="frm1" onsubmit="return false;">
-		Input Rede de Petri:<br>
-		<textarea rows="16" cols="80" type="text" id="redeInput"></textarea>
-		<br>
-		<button onclick="lerEntradaRede()">GO!</button>
-		<br>
-		Output Rede de Petri:<br>
-		<textarea rows="16" cols="80" type="text" id="redeOutput"></textarea>
-		<br>
+<!doctype html>
+<html lang="en">
+ 	<head>
+  	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Rede de Petri</title>
+	</head>
+	<body>
+		<div class="container">
+			<h1>Rede de Petri</h1>
+			<form id="frm1" onsubmit="lerEntradaRede(); return false;">
+				<div class="row">
+					<div class="col-sm">
+						<div class="form-group">
+							<label for="redeInput">Input JSON</label>
+							<textarea class="form-control" type="text" id="redeInput"></textarea>
+						</div>
+					</div>
+					<div class="col-sm">
+						<div class="form-group">
+							<label for="redeInput">Output</label>
+							<textarea class="form-control" type="text" id="redeOutput"></textarea>
+						</div>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary float-right">Executar</button>
+			</form>
 	</form>	
 </body>
 <script src="rede-petri.js" type="text/javascript"></script>
