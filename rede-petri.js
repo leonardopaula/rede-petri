@@ -170,6 +170,42 @@ class RedePetri
 		console.log(dados);
 		document.getElementById("redeOutput").innerHTML = cabecalho + "\n" + dados;
 	}
+
+	desenhaTabela(ciclo)
+	{
+		let transicoes = [];
+		    transicoes['cabecalho'] = '';
+		    transicoes['dados'] = '';
+		let lugares    = [];
+			lugares['cabecalho'] = '';
+			lugares['dados'] = '';
+		let cabecalho  = '<td>Ciclo</td>';
+		let dados      = '<td>';
+
+		dados         += ciclo + '</td>';
+
+		for(var i = 0; i < this.vertice.length; i++)
+		{
+			if (this.vertice[i] instanceof Lugar) 
+			{
+				if (ciclo == 0)
+					lugares['cabecalho'] += '<td>' + this.vertice[i].nome + '</td>';
+
+				lugares['dados'] += '<td>' + this.vertice[i].marcas + '</td>';
+			} else {
+
+				if (ciclo == 0)
+					lugares['cabecalho'] += '<td>' + this.vertice[i].nome + '</td>';
+
+				transicoes['dados'] += '<td>' + ((this.vertice[i].habilitado) ? 'S' : 'N') + '</td>';
+			}
+		}
+
+		cabecalho += lugares['cabecalho'] + transicoes['cabecalho'];
+		dados     += lugares['dados'] + transicoes['dados'];
+		$('.table thead').html(cabecalho);
+		$('.table tbody').html($('.table tbody').html() + dados);
+	}
 }
 
 function lerEntradaRede() {
@@ -191,7 +227,8 @@ function lerEntradaRede() {
 
 	rede.atualizaHabilitado();
 
-	rede.desenhaTerminal(0);
+	//rede.desenhaTerminal(0);
+	rede.desenhaTabela(0);
 }
 
 /*
