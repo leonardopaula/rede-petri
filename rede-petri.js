@@ -89,9 +89,9 @@ class RedePetri
 		}
 
 		this.atualizaHabilitado();
+		this.ciclo++;
 		this.desenhaTabela(this.ciclo);
 
-		this.ciclo++;
 	}
 
 	atualizaHabilitado()
@@ -146,7 +146,7 @@ class RedePetri
 		let cabecalho  = '|Ciclo|  ';
 		let dados      = '|  ';
 
-		dados         += ciclo + '  |  ';
+		dados         += this.ciclo + '  |  ';
 
 		for(var i = 0; i < this.vertice.length; i++)
 		{
@@ -180,23 +180,23 @@ class RedePetri
 		let lugares    = [];
 			lugares['cabecalho'] = '';
 			lugares['dados'] = '';
-		let cabecalho  = '<td scope="col">Ciclo</td>';
+		let cabecalho  = '<th scope="col">Ciclo</th>';
 		let dados      = '<td>';
 
-		dados         += ciclo + '</td>';
+		dados         += this.ciclo + '</td>';
 
 		for(var i = 0; i < this.vertice.length; i++)
 		{
 			if (this.vertice[i] instanceof Lugar) 
 			{
 				if (ciclo == 0)
-					lugares['cabecalho'] += '<td scope="col">' + this.vertice[i].nome + '</td>';
+					lugares['cabecalho'] += '<th scope="col">' + this.vertice[i].nome + '</th>';
 
 				lugares['dados'] += '<td>' + this.vertice[i].marcas + '</td>';
 			} else {
 
 				if (ciclo == 0)
-					lugares['cabecalho'] += '<td scope="col">' + this.vertice[i].nome + '</td>';
+					lugares['cabecalho'] += '<th scope="col">' + this.vertice[i].nome + '</th>';
 
 				transicoes['dados'] += '<td>' + ((this.vertice[i].habilitado) ? 'S' : 'N') + '</td>';
 			}
