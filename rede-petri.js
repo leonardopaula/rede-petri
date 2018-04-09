@@ -88,9 +88,10 @@ class RedePetri
 			}
 		}
 
-		this.ciclo++;
-
 		this.atualizaHabilitado();
+		this.desenhaTabela(this.ciclo);
+
+		this.ciclo++;
 	}
 
 	atualizaHabilitado()
@@ -179,7 +180,7 @@ class RedePetri
 		let lugares    = [];
 			lugares['cabecalho'] = '';
 			lugares['dados'] = '';
-		let cabecalho  = '<td>Ciclo</td>';
+		let cabecalho  = '<td scope="col">Ciclo</td>';
 		let dados      = '<td>';
 
 		dados         += ciclo + '</td>';
@@ -189,13 +190,13 @@ class RedePetri
 			if (this.vertice[i] instanceof Lugar) 
 			{
 				if (ciclo == 0)
-					lugares['cabecalho'] += '<td>' + this.vertice[i].nome + '</td>';
+					lugares['cabecalho'] += '<td scope="col">' + this.vertice[i].nome + '</td>';
 
 				lugares['dados'] += '<td>' + this.vertice[i].marcas + '</td>';
 			} else {
 
 				if (ciclo == 0)
-					lugares['cabecalho'] += '<td>' + this.vertice[i].nome + '</td>';
+					lugares['cabecalho'] += '<td scope="col">' + this.vertice[i].nome + '</td>';
 
 				transicoes['dados'] += '<td>' + ((this.vertice[i].habilitado) ? 'S' : 'N') + '</td>';
 			}
@@ -203,15 +204,19 @@ class RedePetri
 
 		cabecalho += lugares['cabecalho'] + transicoes['cabecalho'];
 		dados     += lugares['dados'] + transicoes['dados'];
-		$('.table thead').html(cabecalho);
-		$('.table tbody').html($('.table tbody').html() + dados);
+		if (ciclo == 0)
+			$('.table thead').html('<tr>' + cabecalho + '</tr>');
+		$('.table tbody').html($('.table tbody').html() + '<tr>' + dados + '</tr>');
 	}
 }
 
-function lerEntradaRede() {
+var rede = new RedePetri();
+
+function lerEntradaRede() 
+{
 	texto = document.getElementById("redeInput").value
 	let json = JSON.parse(texto);
-	var rede = new RedePetri();
+
 	let lugares = json.L;
 	for(var i = 0; i < lugares.length; i++){
 		rede.adicionaVertice(new Lugar(lugares[i][0], lugares[i][1]));
@@ -232,7 +237,6 @@ function lerEntradaRede() {
 }
 
 /*
-var rede = new RedePetri();
 
 rede.adicionaVertice(new Lugar('L1', 1));
 rede.adicionaVertice(new Lugar('L2', 2));
