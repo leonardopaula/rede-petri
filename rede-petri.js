@@ -26,7 +26,7 @@ class RedePetri {
 		this.vertice[this.nVertices++] = vertice;
 	}
 
-	adicionaArco(v1, v2, peso = 1) {
+	adicionaArco(v1, v2, peso = 1) {		
 		this.validarVertices(v1, v2);
 
 		if (!this.arco[v1])
@@ -63,34 +63,10 @@ class RedePetri {
 			// Percorre os arcos deste vértice
 			for (var j = 0; j < this.arco.length; j++) {
 				// Para
-
 				if (j == this.habilitados[i]) {
-
-					let aux = 0;
 					for (var k = 0; k < this.arco[j].length; k++) {
 						if (this.arco[j][k] != undefined) {
-							aux++;
-						}
-					}
-
-					if(aux == 1){
-						for (var k = 0; k < this.arco[j].length; k++) {
-							if (this.arco[j][k] != undefined) {
-								this.vertice[k].marcas += this.arco[j][k];
-							}
-						}
-					}else{
-						let rdm = Math.floor((Math.random() * aux) + 1);
-						let rightNmb = 1;
-						for (var k = 0; k < this.arco[j].length; k++) {
-							if (this.arco[j][k] != undefined) {
-								if(rightNmb == rdm){
-									this.vertice[k].marcas += this.arco[j][k];
-									rightNmb++;
-								}else{
-									rightNmb++;
-								}
-							}
+							this.vertice[k].marcas += this.arco[j][k];
 						}
 					}
 				}
@@ -109,8 +85,6 @@ class RedePetri {
 		this.desenhaTabela(this.ciclo);
 
 	}
-
-
 
 	atualizaHabilitado() {
 		this.habilitados = [];
@@ -240,7 +214,8 @@ function lerEntradaRede() {
 		//rede.desenhaTerminal(0);
 		rede.desenhaTabela(0);
 	}
-	catch (e) {
+	catch (e)
+	{
 		console.log("Erro " + e);
 		document.getElementById("erros").textContent = e;
 		//document.getElementById("erros").innerHTML = e.message;
