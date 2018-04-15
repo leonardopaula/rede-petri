@@ -59,10 +59,12 @@ class RedePetri {
 	/* Percorre todos o nós, executando 1 passo*/
 	executa() {
 		// Percorre as transações habilitadas, atualizando os pesos
-		for (var i = 0; i < this.habilitados.length; i++) {
+		//for (var i = 0; i < this.habilitados.length; i++) {
+			let i = Math.floor((Math.random() * (this.habilitados.length - 1)) + 0);
 			// Percorre os arcos deste vértice
 			for (var j = 0; j < this.arco.length; j++) {
 				// Para
+
 				if (j == this.habilitados[i]) {
 					for (var k = 0; k < this.arco[j].length; k++) {
 						if (this.arco[j][k] != undefined) {
@@ -78,7 +80,7 @@ class RedePetri {
 					}
 				}
 			}
-		}
+		
 
 		this.atualizaHabilitado();
 		this.ciclo++;
