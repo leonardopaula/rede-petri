@@ -1,7 +1,8 @@
 class Lugar {
-	constructor(nome, marcas) {
+	constructor(nome, marcas, tempo) {
 		this.nome = nome;
 		this.marcas = marcas;
+		this.tempo = tempo;
 	}
 }
 
@@ -20,6 +21,7 @@ class RedePetri {
 		this.ciclo = 0;
 		this.habilitados = [];
 		this.passo = 0;
+		this.relogio = 0;
 	}
 
 	adicionaVertice(vertice) {
@@ -136,13 +138,10 @@ class RedePetri {
 
 		for (var i = 0; i < this.vertice.length; i++) {
 			if (this.vertice[i] instanceof Lugar) {
-				//if (ciclo == 0)
 				lugares['cabecalho'] += this.vertice[i].nome + ' |  ';
 
 				lugares['dados'] += this.vertice[i].marcas + '  |  ';
 			} else {
-
-				//if (ciclo == 0)
 				transicoes['cabecalho'] += this.vertice[i].nome + ' |  ';
 
 				transicoes['dados'] += ((this.vertice[i].habilitado) ? 'S' : 'N') + '  |  ';
@@ -200,7 +199,7 @@ function lerEntradaRede() {
 
 		let lugares = json.L;
 		for (var i = 0; i < lugares.length; i++) {
-			rede.adicionaVertice(new Lugar(lugares[i][0], lugares[i][1]));
+			rede.adicionaVertice(new Lugar(lugares[i][0], lugares[i][1], lugares[i][2]));
 		}
 		let transicoes = json.T;
 		for (var i = 0; i < transicoes.length; i++) {
@@ -212,15 +211,13 @@ function lerEntradaRede() {
 		}
 
 		rede.atualizaHabilitado();
-
-		//rede.desenhaTerminal(0);
+		
 		rede.desenhaTabela(0);
 	}
 	catch (e)
 	{
 		console.log("Erro " + e);
 		document.getElementById("erros").textContent = e;
-		//document.getElementById("erros").innerHTML = e.message;
 	}
 }
 
