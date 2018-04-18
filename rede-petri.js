@@ -65,8 +65,8 @@ class RedePetri {
 			let i = Math.floor((Math.random() * (this.habilitados.length - 1)) + 0);
 			// Percorre os arcos deste vértice
 			for (var j = 0; j < this.arco.length; j++) {
+								
 				// Para
-
 				if (j == this.habilitados[i]) {
 					for (var k = 0; k < this.arco[j].length; k++) {
 						if (this.arco[j][k] != undefined) {
@@ -79,8 +79,10 @@ class RedePetri {
 				if (this.arco[j]) {
 					if (this.arco[j][this.habilitados[i]] != undefined) {
 						this.vertice[j].marcas -= this.arco[j][this.habilitados[i]];
+						this.somaTempo(j);						
 					}
 				}
+				
 			}
 		
 
@@ -88,6 +90,15 @@ class RedePetri {
 		this.ciclo++;
 		this.desenhaTabela(this.ciclo);
 
+	}
+
+	somaTempo(j)
+	{
+		if (this.vertice[j] instanceof Lugar)
+		{
+			alert("Somou " + this.vertice[j].tempo);
+			this.relogio += this.vertice[j].tempo;
+		}
 	}
 
 	atualizaHabilitado() {
@@ -182,8 +193,8 @@ class RedePetri {
 			}
 		}
 
-		cabecalho += lugares['cabecalho'] + transicoes['cabecalho'];
-		dados += lugares['dados'] + transicoes['dados'];
+		cabecalho += lugares['cabecalho'] + transicoes['cabecalho'] + '<th scope="col">Relógio</th>';
+		dados += lugares['dados'] + transicoes['dados'] + '<td>' + this.relogio + '</td>';
 		if (ciclo == 0)
 			$('.table thead').html('<tr>' + cabecalho + '</tr>');
 		$('.table tbody').html($('.table tbody').html() + '<tr>' + dados + '</tr>');
