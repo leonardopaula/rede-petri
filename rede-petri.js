@@ -65,12 +65,16 @@ class RedePetri {
 			let i = Math.floor((Math.random() * (this.habilitados.length - 1)) + 0);
 			// Percorre os arcos deste vértice
 			for (var j = 0; j < this.arco.length; j++) {
-								
+				
 				// Para
 				if (j == this.habilitados[i]) {
 					for (var k = 0; k < this.arco[j].length; k++) {
 						if (this.arco[j][k] != undefined) {
 							this.vertice[k].marcas += this.arco[j][k];
+							// arco final sem transações na sequencia
+							if (this.arco[j] && this.arco[j][this.habilitados[i]] == undefined) {
+								this.somaTempo(k);
+							}														
 						}
 					}
 				}
@@ -78,13 +82,10 @@ class RedePetri {
 				// De
 				if (this.arco[j]) {
 					if (this.arco[j][this.habilitados[i]] != undefined) {
-						this.vertice[j].marcas -= this.arco[j][this.habilitados[i]];
-						this.somaTempo(j);						
+						this.vertice[j].marcas -= this.arco[j][this.habilitados[i]];						
 					}
-				}
-				
+				}				
 			}
-		
 
 		this.atualizaHabilitado();
 		this.ciclo++;
@@ -95,8 +96,7 @@ class RedePetri {
 	somaTempo(j)
 	{
 		if (this.vertice[j] instanceof Lugar)
-		{
-			alert("Somou " + this.vertice[j].tempo);
+		{			
 			this.relogio += this.vertice[j].tempo;
 		}
 	}
@@ -125,8 +125,12 @@ class RedePetri {
 			if (this.arco[i]) {
 				if (this.arco[i][indice] != undefined) {
 					local = this.vertice[i];
+					
 					if (local.marcas >= this.arco[i][indice])
+					{
 						habilitado = true;
+						this.somaTempo(i);
+					}
 					else
 						return false;
 				}
@@ -192,7 +196,7 @@ class RedePetri {
 				transicoes['dados'] += '<td>' + ((this.vertice[i].habilitado) ? 'S' : 'N') + '</td>';
 			}
 		}
-
+		
 		cabecalho += lugares['cabecalho'] + transicoes['cabecalho'] + '<th scope="col">Relógio</th>';
 		dados += lugares['dados'] + transicoes['dados'] + '<td>' + this.relogio + '</td>';
 		if (ciclo == 0)
