@@ -2,7 +2,9 @@ class Lugar {
 	constructor(nome, marcas, tempo) {
 		this.nome = nome;
 		this.marcas = marcas;
-		this.tempo = tempo;
+		this.tempo = (tempo == NaN || tempo == undefined || tempo == '') 
+		           ? 0
+		           : tempo;
 	}
 }
 
@@ -208,8 +210,10 @@ class RedePetri {
 var rede = new RedePetri();
 
 function lerEntradaRede() {
+	$('.table tbody, .table thead').html('');
+	rede = new RedePetri();
 	try {
-		texto = document.getElementById("redeInput").value
+		texto = document.getElementById("redeInput").value;
 		let json = JSON.parse(texto);
 
 		let lugares = json.L;
